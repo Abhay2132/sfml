@@ -1,0 +1,20 @@
+name=$1
+
+mkdir -p out
+
+if [ ! -f $name.cpp ]
+then
+  echo "error : '${name}.cpp' 404 not found !"
+  exit
+fi
+b_name=`basename $name`
+
+echo -e "\u2022 Compiling $name.cpp"
+echo -e "g++ -g $name.cpp -o out/$b_name -lsfml-graphics -lsfml-window -lsfml-system"
+g++ -g $name.cpp -o out/$b_name -lsfml-graphics -lsfml-window -lsfml-system
+if [ "$?" -ne 0 ];
+then
+  exit
+fi
+echo -e "\u2713 Compiled $name.cpp"
+./out/$b_name
