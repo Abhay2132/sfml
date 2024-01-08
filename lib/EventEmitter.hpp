@@ -28,13 +28,9 @@ public:
     void off(const std::string& eventName, const std::function<void()>& callback) {
         if (eventListeners.find(eventName) != eventListeners.end()) {
             auto& callbacks = eventListeners[eventName];
-            // callbacks.erase(std::remove(callbacks.begin(), callbacks.end(), callback), callbacks.end());
-            for(int i=0; i<callbacks.size(); i++){
-                if(getAddress(callbacks[i]) == getAddress(callback)){
-                    callbacks.erase(callbacks.begin() + i);
-                    return;
-                }
-            }
+            callbacks.erase(std::remove_if(callbacks.begin(), callbacks.end(), [callback](const auto& cb){
+                return getAddress(cb) == getAddress(callback);
+            }), callbacks.end());
         }
     }
 
