@@ -17,7 +17,7 @@ namespace _ee_
     };
 }
 
-class EventEmitter
+class EventListener
 {
 public:
     // Subscribe to an event
@@ -26,17 +26,6 @@ public:
         eventListeners[eventName].push_back(callback);
     }
 
-    // Emit an event
-    void emit(const std::string &eventName)
-    {
-        if (eventListeners.find(eventName) != eventListeners.end())
-        {
-            for (const auto &callback : eventListeners[eventName])
-            {
-                callback();
-            }
-        }
-    }
 
     // Remove a specific callback from an event
     void off(const std::string &eventName, const std::function<void()> &callback)
@@ -56,8 +45,29 @@ public:
         eventListeners.erase(eventName);
     }
 
+protected:
+    // Emit an event
+    void emit(const std::string &eventName)
+    {
+        if (eventListeners.find(eventName) != eventListeners.end())
+        {
+            for (const auto &callback : eventListeners[eventName])
+            {
+                callback();
+            }
+        }
+    }
+
 private:
-    std::map<std::string, std::vector<std::function<void()>>> eventListeners;
+        std::map<std::string, std::vector<std::function<void()>>> eventListeners;
+
+};
+
+class EventEmitter : public EventListener{
+    public:
+        void emit(const std::string &eventName){
+            EventListener::emit(eventName);
+        }
 };
 
 void hello()

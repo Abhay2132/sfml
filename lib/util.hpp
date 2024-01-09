@@ -3,6 +3,8 @@
 
 #include<SFML/Graphics.hpp>
 
+using std::cout, std::endl;
+
 typedef void (* Callback )(void);
 
 namespace _ {
@@ -21,6 +23,7 @@ namespace _ {
 }
 
 double getDist(sf::Time dt, double speed){
+	// cout<<speed<<endl;
 	return speed * (dt.asMicroseconds()*0.000001);
 }
 
@@ -30,11 +33,5 @@ double cycle(double val, double a, double b){
 	return val;
 }
 
-template<typename T, typename... U>
-size_t getAddress(std::function<T(U...)> f) {
-    typedef T(fnType)(U...);
-    fnType ** fnPointer = f.template target<fnType*>();
-    return (size_t) *fnPointer;
-};
 
 #endif
